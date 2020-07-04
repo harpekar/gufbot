@@ -1,0 +1,3 @@
+A simple bot for a small discord server. 
+
+Based off of the Discord Node.js Bot API, and as such requires a .env file with the bot's Key and correct installation of the dotenv and discord.js dependencies.
