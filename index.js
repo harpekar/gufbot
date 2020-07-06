@@ -12,7 +12,10 @@ bot.on('ready', () => {
 });
 
 bot.on('message', msg => {
-  if (msg.content === 'where is tap?') {
+
+    if (msg.author.bot) return;
+
+    else if (msg.content === 'where is tap?') {
     msg.channel.send('dead to me');
     }
 
