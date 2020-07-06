@@ -21,28 +21,32 @@ bot.on('message', msg => {
     if (msg.author.bot) return;
 
     else if (msg.content === 'where is tap?') {
-    msg.channel.send('dead to me');
+        msg.channel.send('dead to me');
     }
 
     else if (msg.content.includes("tap" && "dead")) {
 
+        msg_user = msg.author.username
+        
         for (var index = 0; index < dead_db.length; index++) {
+            
+            json_obj = dead_db[index]
 
+            msg.channel.send(`msg sent by ${msg_user}, checking against ${json_obj.username}`)
 
-            msg.channel.send(`msg sent by ${msg.author.username}, checking against ${user.username}`)
-
-            if (dead_db[index].username == msg.author.username) { //If the user already exists in the database
+            if (json_obj.username == msg_user) { //If the user already exists in the database
                 
                 dead_db[index].score++;
 
-                msg.channel.send(`Tap is dead to ${msg.author} ${dead_db[index].score} times over.`)                         
+                msg.channel.send(`Tap is dead to ${msg_user} ${dead_db[index].score} times over.`)                         
                 return;
             }
         }
 
-        //make new entry in database
+        dead_db.push({"username":msg.author.username, "score":1});
+
+        msg.channel.send(`Tap is only dead to ${msg_user} once.`)
 
     }  
-
 
 });
