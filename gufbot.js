@@ -22,7 +22,7 @@ bot.on('message', msg => {
         msg.channel.send('dead to me');
     }
 
-    else if (msg.content.includes("tap" && "dead")) {
+    else if (msg.content.includes("tap" && "alive") || msg.content.includes("tap" && "dead") ) {
 
         msg_user = msg.author.username
         
@@ -30,11 +30,13 @@ bot.on('message', msg => {
             
             json_obj = dead_db[index]
 
-            msg.channel.send(`msg sent by ${msg_user}, checking against ${json_obj.username}`)
+            //msg.channel.send(`msg sent by ${msg_user}, checking against ${json_obj.username}`)
 
             if (json_obj.username == msg_user) { //If the user already exists in the database
                 
-                dead_db[index].score++;
+                if (msg.content.includes("dead")) { dead_db[index].score++; }
+
+                else { dead_db[index].score--; }
 
                 msg.channel.send(`Tap is dead to ${msg_user} ${dead_db[index].score} times over.`)                         
                 return;
@@ -45,9 +47,9 @@ bot.on('message', msg => {
 
         msg.channel.send(`Tap is only dead to ${msg_user} once.`)
 
-    }
+    } 
 
-    else if (msg.content === "!update") {
+    else if (msg.content === "!kill_bot") {
 
         const db_string = JSON.stringify(dead_db)
 
@@ -57,6 +59,8 @@ bot.on('message', msg => {
         else {msg.channel.send(`Successfully wrote file.`) }
 
         })
+
+        msg.channel.send('See you, space cowboy.').then(m => {bot.destroy();   });
 
     }     
 
