@@ -1,6 +1,7 @@
 require('dotenv').config();
 const Discord = require('discord.js');
 const fs = require('fs'); // For file manipulation
+const sortArray = require('sort-json-array') //For s
 
 const bot = new Discord.Client();
 const TOKEN = process.env.TOKEN;
@@ -38,7 +39,7 @@ bot.on('message', msg => {
 
                 else { dead_db[index].score--; }
 
-                msg.channel.send(`Tap is dead to ${msg_user} ${dead_db[index].score} times over.`)                         
+                msg.channel.send(`Tap is dead to ${json_obj.username} ${dead_db[index].score} times over.`)                         
                 return;
             }
         }
@@ -47,6 +48,30 @@ bot.on('message', msg => {
 
         msg.channel.send(`Tap is only dead to ${msg_user} once.`)
 
+    }
+
+    else if (msg.content.includes("aggron" && "raid")) {
+        
+        msg.channel.send(`Don\'t make me tap the sign.`)
+
+        msg.channel.send("", {files: ['./tapthesign.png'] });   
+    
+    }
+
+    else if (msg.content === "/leaderboard") {
+
+        sortArray(dead_db, 'score', 'des');
+
+        msg.channel.send(`LEADERBOARD:`)
+        
+        for (var i = 0; i < Math.min(6,dead_db.length); i++) {
+            
+            json_obj = dead_db[i]
+            msg.channel.send(`${dead_db[i].username} : ${json_obj.score}`) 
+
+        }
+
+        msg.channel.send
     } 
 
     else if (msg.content === "!kill_bot") {
@@ -56,7 +81,7 @@ bot.on('message', msg => {
         fs.writeFile('./names.json', db_string, err => {
         
         if (err) {msg.channel.send(`Error writing file ${err}`) }
-        else {msg.channel.send(`Successfully wrote file.`) }
+        else {}
 
         })
 
