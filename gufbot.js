@@ -60,7 +60,7 @@ bot.on('message', msg => {
 
     else if (msg.content === "/leaderboard") {
 
-        sortArray(dead_db, 'score', 'des');
+        JSON.sort(dead_db, "desc", "score")
 
         msg.channel.send(`LEADERBOARD:`)
         
@@ -71,7 +71,6 @@ bot.on('message', msg => {
 
         }
 
-        msg.channel.send
     } 
 
     else if (msg.content === "!kill_bot") {
