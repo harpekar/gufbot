@@ -23,11 +23,11 @@ conditions = [
     [m => m.content == 'where is tap?', m => m.channel.send('dead to me')],
     [m => (m.content.includes('tap') && 
             (m.content.includes('dead') || m.content.includes('alive'))), 
-            m => botFuncs.tapIsDead(m, dead_db) ],
+            m => botFuncs.tapIterate(m, dead_db) ],
     [m => m.content.includes('aggron') && m.content.includes('raid'), 
             m => botFuncs.aggronBad(m)],
     [m => m.content == '/leaderboard', m => botFuncs.leaderboard(m, dead_db)],
-    [m => m.content == '!kill_bot', m => botFuncs.killBot(m, dead_db)],
+    [m => m.content == '!killbot', m => botFuncs.killBot(m, bot, dead_db)],
     [m => true, m => null]
 ]
 

@@ -1,6 +1,8 @@
 //Implementations for Gufbot's functions
 
-function tapIsDead(msg, dead_db) 
+const fs = require('fs');
+
+function tapIterate(msg, dead_db) 
 {
 
     msg_user = msg.author.username
@@ -52,10 +54,9 @@ function leaderboard(msg, dead_db)
 
 }
 
-function killBot(msg, dead_db) 
+function killBot(msg, bot, dead_db) 
 {
-
-    const db_string = JSON.stringify(dead_db)
+    const db_string = JSON.stringify(dead_db, null, 3) //Set up indentation in file
 
     fs.writeFile('./names.json', db_string, err => {
     
@@ -68,4 +69,4 @@ function killBot(msg, dead_db)
 
 }
 
-module.exports = {tapIsDead, aggronBad, leaderboard, killBot }
+module.exports = {tapIterate, aggronBad, leaderboard, killBot }
