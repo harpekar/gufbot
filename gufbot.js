@@ -1,7 +1,12 @@
 require('dotenv').config();
+
 const Discord = require('discord.js');
 const fs = require('fs'); // For file manipulation
-const sortArray = require('sort-json-array') //For s
+const sortArray = require('sort-json-array') //For leaderboard sorting
+
+const botFuncs = require('./botFuncs.js')
+
+//import * as botFuncs from './botFuncs.js';
 
 const bot = new Discord.Client();
 const TOKEN = process.env.TOKEN;
@@ -9,56 +14,73 @@ const TOKEN = process.env.TOKEN;
 let rawdata = fs.readFileSync('names.json');
 let dead_db = JSON.parse(rawdata);
 
+
 bot.login(TOKEN);
 
 bot.on('ready', () => {
   console.info(`Logged in as ${bot.user.tag}!`);
 });
 
+conditions = [
+    [m => m.content == 'where is tap?', m => m.channel.send('dead to me')],
+    [m => (m.content.includes('tap') && 
+            (m.content.includes('dead') || m.content.includes('alive'))), 
+            m => botFuncs.tapIsDead(m, dead_db) ],
+    [m => m.content.includes('aggron') && m.content.includes('raid'), 
+            m => botFuncs.aggronBad(m)],
+    [m => m.content == '/leaderboard', m => botFuncs.leaderboard(m, dead_db)],
+    [m => m.content == '!kill_bot', m => botFuncs.killBot(m, dead_db)],
+    [m => true, m => null]
+]
+
+
 bot.on('message', msg => {
 
     if (msg.author.bot) return;
 
-    else if (msg.content === 'where is tap?') {
-        msg.channel.send('dead to me');
-    }
+    action = conditions.find(cond => cond[0](msg))[1]
+    action(msg)
 
-    else if (msg.content.includes("tap" && "alive") || msg.content.includes("tap" && "dead") ) {
+    // else if (msg.content === 'where is tap?') {
+    //     msg.channel.send('dead to me');
+    // }
 
-        msg_user = msg.author.username
-        
-        for (var index = 0; index < dead_db.length; index++) {
-            
-            json_obj = dead_db[index]
+    // else if (msg.content.includes("tap" && "alive") || msg.content.includes("tap" && "dead") ) {
 
-            //msg.channel.send(`msg sent by ${msg_user}, checking against ${json_obj.username}`)
+    //     msg_user = msg.author.username
+    //     
+    //     for (var index = 0; index < dead_db.length; index++) {
+    //         
+    //         json_obj = dead_db[index]
 
-            if (json_obj.username == msg_user) { //If the user already exists in the database
-                
-                if (msg.content.includes("dead")) { dead_db[index].score++; }
+    //         //msg.channel.send(`msg sent by ${msg_user}, checking against ${json_obj.username}`)
 
-                else { dead_db[index].score--; }
+    //         if (json_obj.username == msg_user) { //If the user already exists in the database
+    //             
+    //             if (msg.content.includes("dead")) { dead_db[index].score++; }
 
-                msg.channel.send(`Tap is dead to ${json_obj.username} ${dead_db[index].score} times over.`)                         
-                return;
-            }
-        }
+    //             else { dead_db[index].score--; }
 
-        dead_db.push({"username":msg.author.username, "score":1});
+    //             msg.channel.send(`Tap is dead to ${json_obj.username} ${dead_db[index].score} times over.`)                         
+    //             return;
+    //         }
+    //     }
 
-        msg.channel.send(`Tap is only dead to ${msg_user} once.`)
+    //     dead_db.push({"username":msg.author.username, "score":1});
 
-    }
+    //     msg.channel.send(`Tap is only dead to ${msg_user} once.`)
 
-    else if (msg.content.includes("aggron" && "raid")) {
-        
-        msg.channel.send(`Don\'t make me tap the sign.`)
+    // }
 
-        msg.channel.send("", {files: ['./tapthesign.png'] });   
-    
-    }
+    // else if (msg.content.includes("aggron" && "raid")) {
+    //     
+    //     msg.channel.send(`Don\'t make me tap the sign.`)
 
-    else if (msg.content === "/leaderboard") {
+    //     msg.channel.send("", {files: ['./tapthesign.png'] });   
+    // 
+    // }
+
+    /*else if (msg.content === "/leaderboard") {
 
         JSON.sort(dead_db, "desc", "score")
 
@@ -86,6 +108,7 @@ bot.on('message', msg => {
 
         msg.channel.send('See you, space cowboy.').then(m => {bot.destroy();   });
 
-    }     
+    }     */
+
 
 });
