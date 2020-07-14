@@ -1,3 +1,5 @@
+//Implementations for Gufbot's functions
+
 function tapIsDead(msg, dead_db) 
 {
 
@@ -35,16 +37,18 @@ function aggronBad(msg) {
 function leaderboard(msg, dead_db) 
 {
 
-    JSON.sort(dead_db, "desc", "score")
+    dead_db.sort(function(a,b) {
+        return b.score-a.score        
+    })
 
-        msg.channel.send(`LEADERBOARD:`)
+    msg.channel.send(`LEADERBOARD:`)
 
-        for (var i = 0; i < Math.min(6,dead_db.length); i++) {
+    for (var i = 0; i < Math.min(6,dead_db.length); i++) {
 
-            json_obj = dead_db[i]
-                msg.channel.send(`${dead_db[i].username} : ${json_obj.score}`) 
+        json_obj = dead_db[i]
+        msg.channel.send(`${dead_db[i].username} : ${json_obj.score}`) 
 
-        }
+   }
 
 }
 
