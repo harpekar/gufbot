@@ -20,7 +20,7 @@ function tapIterate(msg, dead_db)
                     else { dead_db[index].score--; }
 
                     msg.channel.send(`Tap is dead to ${json_obj.username} ${dead_db[index].score} times over.`)                         
-                        return;
+                    return;
                 }
         }
 
@@ -54,8 +54,9 @@ function leaderboard(msg, dead_db)
 
 }
 
-function killBot(msg, bot, dead_db) 
+function updateScores(msg, dead_db)
 {
+
     const db_string = JSON.stringify(dead_db, null, 3) //Set up indentation in file
 
     fs.writeFile('./names.json', db_string, err => {
@@ -64,7 +65,11 @@ function killBot(msg, bot, dead_db)
     else {}
 
     })
+}
 
+function killBot(msg, bot, dead_db) 
+{
+    updateScores(msg, dead_db)
     msg.channel.send('See you, space cowboy.').then(m => {bot.destroy();   });
 
 }
