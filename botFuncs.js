@@ -1,6 +1,12 @@
 //Implementations for Gufbot's functions
 
 const fs = require('fs');
+const jimp = require('jimp'); //Image manipulation 
+
+function addNew(user, dead_db, tapScore=0, shinyScore=0, shinyTime=0) 
+{
+    dead_db.push({"username":user.username, "score":tapScore, "shinyScore":shinyScore, "shinyTime":shinyTime})
+}
 
 function tapIterate(msg, dead_db) 
 {
@@ -24,8 +30,13 @@ function tapIterate(msg, dead_db)
                 }
         }
 
-    dead_db.push({"username":msg.author.username, "score":1});
+    //dead_db.push({"username":msg.author.username, "score":1});
+
+    addNew(msg.author, dead_db, tapScore = 1, shinyScore = 0, shinyTime = 0) 
+
     msg.channel.send(`Tap is only dead to ${msg_user} once.`)
+
+    updateScores(msg)
 
 }
 
@@ -35,6 +46,36 @@ function aggronBad(msg) {
         msg.channel.send("", {files: ['./tapthesign.png'] });   
 }
 
+function shinyTracker(msg, dead_db) {
+
+   msg.channel.send(`Checking for shinies`)
+
+   msgUser = msg.author.username 
+
+   timeStamp = msg.createdAt
+
+    for ( var index = 0; index < dead_db.length; index++) {
+
+        console.log(`Is ${dead_db[index].username} the same as ${msgUser}?`)
+
+        if (dead_db[index].username == msgUser) {
+                
+                dead_db[index].shinyScore++;
+                dead_db[index].shinyTime = timeStamp;
+
+                msg.channel.send(`${dead_db[index].username} just got a shiny.`)
+
+                return; 
+        }
+    }
+
+    addNew(msg.author, dead_db, tapScore = 0, shinyScore = 1, shinyTime = timeStamp) 
+    msg.channel.send(`${msgUser} just got their first shiny.`)   
+}
+
+function pictures(msg) {
+        
+}
 
 function leaderboard(msg, dead_db) 
 {
@@ -74,4 +115,4 @@ function killBot(msg, bot, dead_db)
 
 }
 
-module.exports = {tapIterate, aggronBad, leaderboard, killBot }
+module.exports = {tapIterate, aggronBad, shinyTracker, leaderboard, killBot }

@@ -4,10 +4,6 @@
       "score": 23
    },
    {
-      "username": "selfishshellfish",
-      "score": 7
-   },
-   {
       "username": "BlackSox",
       "score": -1
    },
@@ -18,5 +14,11 @@
    {
       "username": "ShoelessSean13",
       "score": 4
+   },
+   {
+      "username": "selfishshellfish",
+      "score": 0,
+      "shinyScore": 1,
+      "shinyTime": "2020-07-18T01:56:18.494Z"
    }
 ]

@@ -26,6 +26,8 @@ conditions = [
             m => botFuncs.tapIterate(m, dead_db) ],
     [m => m.content.includes('aggron') && m.content.includes('raid'), 
             m => botFuncs.aggronBad(m)],
+    [m => m.channel == '<#729070432270942342>' && m.attachments.size > 0, 
+            m => botFuncs.shinyTracker(m, dead_db)], 
     [m => m.content == '/leaderboard', m => botFuncs.leaderboard(m, dead_db)],
     [m => m.content == '!killbot', m => botFuncs.killBot(m, bot, dead_db)],
     [m => true, m => null]
@@ -35,6 +37,8 @@ conditions = [
 bot.on('message', msg => {
 
     if (msg.author.bot) return;
+
+    console.log(`channel is  ${msg.channel}`)
 
     action = conditions.find(cond => cond[0](msg))[1]
     action(msg)
