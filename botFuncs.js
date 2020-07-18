@@ -48,22 +48,24 @@ function aggronBad(msg) {
 
 function shinyTracker(msg, dead_db) {
 
-   msg.channel.send(`Checking for shinies`)
-
    msgUser = msg.author.username 
 
-   timeStamp = msg.createdAt
+   timeStamp = msg.createdTimeStamp
 
     for ( var index = 0; index < dead_db.length; index++) {
 
         console.log(`Is ${dead_db[index].username} the same as ${msgUser}?`)
 
-        if (dead_db[index].username == msgUser) {
-                
+        if (dead_db[index].username == msgUser) { 
+                        
+                            
                 dead_db[index].shinyScore++;
                 dead_db[index].shinyTime = timeStamp;
-
-                msg.channel.send(`${dead_db[index].username} just got a shiny.`)
+                
+                if (dead_db[index].shinyScore >= 3)
+                {
+                    msg.channel.send(`${msgUser} is a bastard and a cheater.`)
+                }
 
                 return; 
         }
@@ -72,6 +74,7 @@ function shinyTracker(msg, dead_db) {
     addNew(msg.author, dead_db, tapScore = 0, shinyScore = 1, shinyTime = timeStamp) 
     msg.channel.send(`${msgUser} just got their first shiny.`)   
 }
+
 
 function pictures(msg) {
         
