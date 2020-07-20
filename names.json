@@ -1,24 +1,32 @@
 [
    {
       "username": "test",
-      "score": 23
+      "score": 23,
+      "shinyScore": 0,
+      "shinyTime": 0
    },
    {
       "username": "BlackSox",
-      "score": -1
+      "score": -1,
+      "shinyScore": 0,
+      "shinyTime": 0
    },
    {
       "username": "CaptTaprolano",
-      "score": 2
+      "score": 2,
+      "shinyScore": 0,
+      "shinyTime": 0
    },
    {
       "username": "ShoelessSean13",
-      "score": 4
+      "score": 4,
+      "shinyScore": 0,
+      "shinyTime": 0    
    },
    {
       "username": "selfishshellfish",
       "score": 0,
       "shinyScore": 1,
-      "shinyTime": "2020-07-18T01:56:18.494Z"
+      "shinyTime": 1595204599043
    }
 ]

@@ -50,24 +50,35 @@ function shinyTracker(msg, dead_db) {
 
    msgUser = msg.author.username 
 
-   timeStamp = msg.createdTimeStamp
+   timeStamp = msg.createdAt.getTime()
 
-    for ( var index = 0; index < dead_db.length; index++) {
+   console.log(timeStamp)
+
+   for ( var index = 0; index < dead_db.length; index++) {
 
         console.log(`Is ${dead_db[index].username} the same as ${msgUser}?`)
 
         if (dead_db[index].username == msgUser) { 
-                        
-                            
-                dead_db[index].shinyScore++;
-                dead_db[index].shinyTime = timeStamp;
-                
-                if (dead_db[index].shinyScore >= 3)
-                {
-                    msg.channel.send(`${msgUser} is a bastard and a cheater.`)
-                }
 
-                return; 
+                if (((timeStamp - dead_db[index].shinyTime )  / (1000 * 3600)) > 48) //If 48 hours have elapsed, reset the tracker
+                {
+                    dead_db[index].shinyScore = 1;
+                    dead_db[index].shinyTime = timeStamp;
+                    return;
+
+                }        
+                 
+                else{           
+                    
+                    dead_db[index].shinyScore++;
+                
+                    if (dead_db[index].shinyScore >= 3)
+                    {
+                        msg.channel.send(`${msgUser} is a bastard and a cheater.`)
+                    }
+
+                    return;
+                } 
         }
     }
 
